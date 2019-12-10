@@ -27,6 +27,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'MaxMEllon/vim-jsx-pretty', {'for': ['typescript', 'javascript', 'typescriptreact', 'javascriptreact']}
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
+Plug 'jparise/vim-graphql'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -63,12 +64,27 @@ set nowrap
 
 syntax on
 
+nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <leader>f :FZF<CR>
-nnoremap <C-l> :vs<CR>
-map <C-n> :NERDTreeToggle<CR>
-map <leader>gs :Gstatus<CR>
-map <leader>gd :Gdiff<CR>
-map <leader>gb :Gblame<CR>
+
+" Center search
+nmap * *zz
+nmap # #zz
+nmap n nzz
+nmap N Nzz
+
+" Split
+nnoremap <leader>s :vs<CR>
+nnoremap <leader>d :sp<CR>
+nnoremap <leader>h <C-w>h
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+nnoremap <leader>l <C-w>l
+
+" Git
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gb :Gblame<CR>
 
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
