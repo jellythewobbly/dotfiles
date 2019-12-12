@@ -1,7 +1,10 @@
 call plug#begin('~/.vim/plugged')
 
 " Theme
+Plug 'vim-airline/vim-airline'
+Plug 'airblade/vim-gitgutter'
 Plug 'joshdick/onedark.vim'
+" Plug 'dracula/vim', { 'as': 'dracula' }
 
 " Language
 Plug 'sheerun/vim-polyglot'
@@ -19,7 +22,10 @@ Plug 'tomtom/tcomment_vim'
 
 " file Navigation
 Plug 'easymotion/vim-easymotion'
+
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
@@ -41,15 +47,21 @@ Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 let mapleader=" "
+
+nnoremap <silent> <C-n> :call SmartNERDTree()<CR>
 let g:NERDTreeWinPos = "left"
+let NERDTreeMinimalUI = 1
+let NERDTreeQuitOnOpen=1
+let NERDTreeShowHidden=1
+let NERDTreeMapOpenSplit='s'
+let NERDTreeMapOpenVSplit='v'
 
 colorscheme onedark
+" colorscheme dracula
 
+syntax on
 set encoding=UTF-8
 set number relativenumber
-set ruler
-set laststatus=2
-set rulerformat+=line:%l\ col:%c
 set title
 set tabstop=2
 set shiftwidth=2
@@ -59,19 +71,24 @@ set clipboard=unnamed
 set ignorecase
 set smartcase
 set backspace=indent,eol,start
+set splitright
+set splitbelow
 set nocompatible
 set nowrap
+set autoread
+set guifont=FuraCodeNerdFontComplete-Medium:h14
 
-syntax on
 
-nnoremap <C-n> :NERDTreeToggle<CR>
-nnoremap <leader>f :FZF<CR>
+nnoremap <leader>f :call HandleFZFInNerd()<CR>
+let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
 
 " Center search
 nmap * *zz
 nmap # #zz
 nmap n nzz
 nmap N Nzz
+nmap } }zz
+nmap { {zz
 
 " Split
 nnoremap <leader>s :vs<CR>
@@ -82,9 +99,13 @@ nnoremap <leader>k <C-w>k
 nnoremap <leader>l <C-w>l
 
 " Git
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gs :vertical :Gstatus<CR>
+nnoremap <leader>gd :vertical :Gdiff<CR>
+nnoremap <leader>ga :Gwrite<CR>
+nnoremap <leader>gA :Git add .<CR><CR>
 nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gB :Gbranch<CR>
+nnoremap <leader>gc :Gcommit<CR>
 
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
@@ -108,3 +129,20 @@ inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
+
+function! SmartNERDTree()                   
+  if @% == ""
+    NERDTreeToggle                      
+  elseif g:NERDTree.IsOpen()
+    NERDTreeClose
+  else
+    NERDTreeFind
+  endif                                   
+endfun 
+
+function! HandleFZFInNerd()
+  if g:NERDTree.IsOpen()
+    NERDTreeClose
+  endif
+  FZF
+endfun
