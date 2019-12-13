@@ -16,6 +16,7 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
+Plug 'valloric/matchtagalways'
 
 " Commenting
 Plug 'tomtom/tcomment_vim'
@@ -67,6 +68,7 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
+set incsearch
 set clipboard=unnamed
 set ignorecase
 set smartcase
@@ -78,9 +80,19 @@ set nowrap
 set autoread
 set guifont=FuraCodeNerdFontComplete-Medium:h14
 
+" Save/update
+nmap :w<CR> :up<CR>
 
 nnoremap <leader>f :call HandleFZFInNerd()<CR>
-let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
+let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit', 'ctrl-t': 'tab split' }
+
+" Opening/closing tags
+nnoremap <silent> <leader>% :MtaJumpToOtherTag<CR>
+let g:mta_filetypes = { 'html' : 1, 'xhtml' : 1, 'xml' : 1, 'jinja' : 1, 'typescript': 1, 'javascript': 1, 'typescriptreact': 1, 'javascriptreact': 1, }
+let g:mta_use_matchparen_group = 0
+let g:mta_set_default_matchtag_color = 0
+" highlight MatchTag ctermfg=black ctermbg=yellow guifg=black guibg=yellow
+highlight MatchTag ctermbg=yellow guibg=yellow
 
 " Center search
 nmap * *zz
@@ -91,8 +103,8 @@ nmap } }zz
 nmap { {zz
 
 " Split
-nnoremap <leader>s :vs<CR>
-nnoremap <leader>d :sp<CR>
+nnoremap <leader>v :vs<CR>
+nnoremap <leader>s :sp<CR>
 nnoremap <leader>h <C-w>h
 nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
@@ -103,9 +115,13 @@ nnoremap <leader>gs :vertical :Gstatus<CR>
 nnoremap <leader>gd :vertical :Gdiff<CR>
 nnoremap <leader>ga :Gwrite<CR>
 nnoremap <leader>gA :Git add .<CR><CR>
+nnoremap <leader>gP :Git pull origin 
+nnoremap <leader>gp :Git push --set-upstream origin HEAD
+nnoremap <leader>gco<space> :Git checkout 
+nnoremap <leader>gcob :Git checkout -b 
 nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gB :Gbranch<CR>
-nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gcm :Git commit -m 
 
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
