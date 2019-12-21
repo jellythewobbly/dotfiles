@@ -58,6 +58,7 @@ colorscheme onedark
 syntax on
 set encoding=UTF-8
 set number relativenumber
+set signcolumn=yes
 set cursorline
 set title
 set tabstop=2
@@ -76,7 +77,7 @@ set nowrap
 set autoread
 set guifont=FuraCodeNerdFontComplete-Medium:h14
 set t_Co=256
-set updatetime=250
+set updatetime=100
 set hidden
 
 " Save/update
@@ -132,15 +133,17 @@ nnoremap <silent> <leader>gcm :Git commit -m
 " " Gitgutter
 let g:gitgutter_sign_added = '+'
 let g:gitgutter_sign_modified = '~'
-let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed = '_'
 let g:gitgutter_sign_removed_first_line = '^'
-let g:gitgutter_sign_modified_removed = '<'
+let g:gitgutter_sign_modified_removed = '~_'
 let g:gitgutter_override_sign_column_highlight = 1
-highlight SignColumn guibg=bg
-highlight SignColumn ctermbg=bg
 
 highlight DiffAdd ctermfg=White ctermbg=DarkGreen guifg=White
 highlight DiffText ctermfg=White guifg=White
+
+" highlight clear SignColumn
+" highlight SignColumn guibg=bg
+" highlight SignColumn ctermbg=bg
 
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
@@ -182,6 +185,7 @@ nmap <leader>rn <Plug>(coc-rename)
 
 " let g:coc_status_error_sign = '❌'
 " let g:coc_status_warning_sign = '⚠️'
+" highlight CocErrorHighlight ctermfg=Red guifg=#ff0000  
 
 
 " NERDTree/fzf
@@ -224,4 +228,3 @@ function! StartUp()
 endfunction
 
 autocmd VimEnter * call StartUp()
-utocmd VimEnter * call StartUp()
