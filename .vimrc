@@ -5,7 +5,8 @@ Plug 'tpope/vim-sensible'
 " Theme
 
 " Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 " Plug 'dracula/vim', { 'as': 'dracula' }
 
@@ -109,6 +110,7 @@ set lazyredraw
 set visualbell
 set directory=$HOME/.vim/swp//
 set termguicolors
+set bg=dark
 
 
 " Vim plug
@@ -282,6 +284,8 @@ endfunction
 
 " NERDTree/fzf
 nnoremap <silent> <leader>f :call HandleFZFInNerd()<CR>
+" Ag search only content not filenames
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 nnoremap <silent> <leader>a :Ag<CR>
 nnoremap <silent> <C-n> :call SmartNERDTree()<CR>
 let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit', 'ctrl-t': 'tab split' }
