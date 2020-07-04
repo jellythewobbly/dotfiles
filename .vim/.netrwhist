@@ -1,7 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =5
-let g:netrw_dirhist_5='/Users/jaylee/codeStuff/ak-math'
-let g:netrw_dirhist_4='/Users/jaylee/codeStuff/adventofcode-2019'
-let g:netrw_dirhist_3='/Users/jaylee/codeStuff/adventofcode-2019/day-6'
-let g:netrw_dirhist_2='/Users/jaylee/codeStuff/adventofcode-2019'
-let g:netrw_dirhist_1='/Users/jaylee/codeStuff/OCBC-Mobile-App/react-src/components/common/bottom-drawer-manager'
