@@ -15,6 +15,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets',
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'neoclide/jsonc.vim'
 
 " Go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -39,6 +40,7 @@ Plug 'junegunn/fzf.vim'
 
 " CSS
 Plug 'ap/vim-css-color'
+Plug 'cakebaker/scss-syntax.vim'
 
 " JS/TS Syntax highlight
 Plug 'MaxMEllon/vim-jsx-pretty', {'for': ['typescript', 'javascript', 'typescript.tsx', 'javascript.jsx']}
@@ -111,6 +113,7 @@ set visualbell
 set directory=$HOME/.vim/swp//
 set termguicolors
 set bg=dark
+" set noexpandtab
 
 
 " Vim plug
@@ -122,8 +125,10 @@ noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " File type
-autocmd bufnewfile,bufread *.jsx set filetype=javascript.jsx
-autocmd bufnewfile,bufread *.tsx set filetype=typescript.tsx
+autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+" tsconfig.json is actually jsonc, help TypeScript set the correct filetype
+autocmd BufNewFile,BufRead tsconfig.json set filetype=jsonc
 
 " Cursor line
 " highlight LineNr ctermfg=DarkGrey guibg=DarkGrey
@@ -217,9 +222,11 @@ let g:gitgutter_override_sign_column_highlight = 1
 " Prettier
 " command! -nargs=0 Prettier :CocCommand prettier.formatFile
 let g:prettier#exec_cmd_async = 1
+" let g:prettier#config#single_quote = 'false'
 " let g:prettier#autoformat = 0
 " autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
 " autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml,*.html PrettierAsync
+" this is the auto format on save for prettier
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 
@@ -278,19 +285,21 @@ function! s:show_documentation()
 endfunction
 
 " Scroll popup
-" nnoremap <expr> <c-d> misc#popup#scroll_cursor_popup(1) ? '<esc>' : '<c-d>'
-" nnoremap <expr> <c-u> misc#popup#scroll_cursor_popup(0) ? '<esc>' : '<c-u>'
+nnoremap <expr> <c-d> misc#popup#scroll_cursor_popup(1) ? '<esc>' : '<c-d>'
+nnoremap <expr> <c-u> misc#popup#scroll_cursor_popup(0) ? '<esc>' : '<c-u>'
 
 
 " NERDTree/fzf
 nnoremap <silent> <leader>f :call HandleFZFInNerd()<CR>
-" Ag search only content not filenames
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
-nnoremap <silent> <leader>a :Ag<CR>
 nnoremap <silent> <C-n> :call SmartNERDTree()<CR>
 let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit', 'ctrl-t': 'tab split' }
-" let $FZF_DEFAULT_COMMAND = 'ag -g ""'
-let $FZF_DEFAULT_COMMAND = 'ag --hidden -p .gitignore --ignore .git -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json" -g ""'
+
+" Ag search only content not filenames
+" command! -bang -nargs=* Ag call fzf#vim#ag_raw(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json"', fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+nnoremap <silent> <leader>a :Ag<CR>
+
 let g:NERDTreeWinPos = "left"
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
