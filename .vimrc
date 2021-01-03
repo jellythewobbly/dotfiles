@@ -3,12 +3,13 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 
 " Theme
-
 " Plug 'joshdick/onedark.vim'
-" Plug 'morhetz/gruvbox'
 Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 " Plug 'dracula/vim', { 'as': 'dracula' }
+
+" Async
+Plug 'tpope/vim-dispatch'
 
 " Language
 Plug 'sheerun/vim-polyglot'
@@ -16,6 +17,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets',
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'neoclide/jsonc.vim'
+Plug 'dbeniamine/cheat.sh-vim'
 
 " Go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -72,6 +74,7 @@ let mapleader=" "
 
 " colorscheme onedark
 colorscheme gruvbox
+" let g:gruvbox_termcolors=16
 " let g:gruvbox_contrast_dark = 'soft'
 " colorscheme dracula
 
@@ -114,6 +117,7 @@ set directory=$HOME/.vim/swp//
 set termguicolors
 set bg=dark
 " set noexpandtab
+set completeopt=longest,menuone
 
 
 " Vim plug
@@ -177,6 +181,10 @@ nnoremap <silent> <leader>h <C-w>h
 nnoremap <silent> <leader>j <C-w>j
 nnoremap <silent> <leader>k <C-w>k
 nnoremap <silent> <leader>l <C-w>l
+
+"Resize split
+nnoremap <silent> <leader>. :vertical resize +5<CR>
+nnoremap <silent> <leader>, :vertical resize -5<CR>
 
 " Buffer
 nnoremap <silent> <leader>bn :bnext<CR>
@@ -246,15 +254,21 @@ let airline#extensions#coc#warning_symbol = '⚠️ :'
 inoremap <silent><expr> <TAB>  pumvisible() ? "\<C-n>" :  <SID>check_back_space() ? "\<TAB>" :  coc#refresh()
 inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
+" Enter to confirm selection
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+inoremap <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <silent><expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+let g:coc_snippet_next = '<tab>'
+
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" Enter to confirm selection
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-let g:coc_snippet_next = '<tab>'
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
