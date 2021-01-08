@@ -307,11 +307,11 @@ nnoremap <expr> <c-u> misc#popup#scroll_cursor_popup(0) ? '<esc>' : '<c-u>'
 nnoremap <silent> <leader>f :call HandleFZFInNerd()<CR>
 nnoremap <silent> <C-n> :call SmartNERDTree()<CR>
 let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit', 'ctrl-t': 'tab split' }
-let $FZF_DEFAULT_COMMAND = 'ag --hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json" -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json" --ignore "*.vim" -g ""'
 
 " Ag search only content not filenames
 " command! -bang -nargs=* Ag call fzf#vim#ag_raw(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json"', fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json" --ignore "*.vim"', fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 nnoremap <silent> <leader>a :Ag<CR>
 
 let g:NERDTreeWinPos = "left"
