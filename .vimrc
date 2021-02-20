@@ -121,8 +121,8 @@ set completeopt=longest,menuone
 
 
 " Vim plug
-noremap <silent> <leader>PI :PlugInstall<CR>
-noremap <silent> <leader>PU :PlugUpdate<CR>
+nnoremap <silent> <leader>PI :PlugInstall<CR>
+nnoremap <silent> <leader>PU :PlugUpdate<CR>
 
 " Movement for wrapped lines (j/k will move virtual lines)
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
@@ -191,7 +191,7 @@ nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bN :bprev<CR>
 nnoremap <silent> <leader>bd :bdelete<CR>
 command! BufOnly execute '%bdelete|edit #|normal `"'
-nnoremap <silent> <leader>bD :BufOnly<CR>
+nnoremap <silent> <leader>bD :BufOnly<CR>:bnext<CR>:bdelete<CR>
 
 " Git
 nnoremap <silent> <leader>gs :vertical :Gstatus<CR>
@@ -250,6 +250,7 @@ let airline#extensions#coc#warning_symbol = '⚠️ :'
  
 
 " coc.nvim
+nnoremap <silent> <leader>CR :CocRestart<CR>
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>  pumvisible() ? "\<C-n>" :  <SID>check_back_space() ? "\<TAB>" :  coc#refresh()
 inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
@@ -307,12 +308,12 @@ nnoremap <expr> <c-u> misc#popup#scroll_cursor_popup(0) ? '<esc>' : '<c-u>'
 nnoremap <silent> <leader>f :call HandleFZFInNerd()<CR>
 nnoremap <silent> <C-n> :call SmartNERDTree()<CR>
 let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit', 'ctrl-t': 'tab split' }
-let $FZF_DEFAULT_COMMAND = 'ag --hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json" -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json" --ignore "*.vim" --ignore "node_modules" -g ""'
 
 " Ag search only content not filenames
 " command! -bang -nargs=* Ag call fzf#vim#ag_raw(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json"', fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
-nnoremap <silent> <leader>a :Ag<CR>
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--hidden -p .gitignore --ignore .git --ignore "*.lock" --ignore "*lock.json" --ignore "*.vim" --ignore "node_modules"', fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+nnoremap <silent> <leader>a :call HandleAGInNerd()<CR>
 
 let g:NERDTreeWinPos = "left"
 let NERDTreeMinimalUI = 1
@@ -362,6 +363,13 @@ function! HandleFZFInNerd()
     NERDTreeClose
   endif
   FZF
+endfun
+
+function! HandleAGInNerd()
+  if g:NERDTree.IsOpen()
+    NERDTreeClose
+  endif
+  Ag
 endfun
 
 function! OpenSession()
