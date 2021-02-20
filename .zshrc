@@ -2,9 +2,9 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jaylee/.oh-my-zsh"
+export ZSH="/Users/jay.a.lee/.oh-my-zsh"
 export PATH=${PATH}:/usr/local/mysql/bin
-# export ANDROID_HOME=/Users/jaylee/Library/Android/sdk
+# export ANDROID_HOME=/Users/jay.a.lee/Library/Android/sdk
 # export PATH=$ANDROID_HOME/platform-tools:$PATH
 # export PATH=$ANDROID_HOME/tools:$PATH
 export ANDROID_HOME=$HOME/Library/Android/sdk
@@ -132,11 +132,20 @@ source $ZSH/oh-my-zsh.sh
 # PROMPT="$fg[cyan]%}$USER@%{$fg[blue]%}%m ${PROMPT}"
 PROMPT="%{$fg[white]%}%n@%{$fg[green]%}%m%{$reset_color%} ${PROMPT}\$ "
 
-alias .vimrc='vim ~/.vimrc'
-alias .gvimrc='vim ~/.gvimrc'
-alias .bash_profile='vim ~/.bash_profile'
-alias .zsh='vim ~/.zshrc'
-alias .zshrc='vim ~/.zshrc'
+DOTFILES="$HOME/codestuff/dotfiles"
+ZSHRC="$HOME/codestuff/dotfiles/.zshrc"
+BASH_PROFILE="$HOME/codestuff/dotfiles/.bash_profile"
+VIMRC="$HOME/codestuff/dotfiles/.vimrc"
+GVIMRC="$HOME/codestuff/dotfiles/.gvimrc"
+
+alias .vimrc="vim $VIMRC"
+alias .gvimrc="vim $GVIMRC"
+alias .bash_profile="vim $BASH_PROFILE"
+alias .zsh="vim $ZSHRC"
+alias .zshrc="vim $ZSHRC"
+alias .files="cd $DOTFILES"
+alias sourcezsh="source $HOME/.zshrc"
+
 alias ga='git add'
 alias gb='git branch'
 alias gco='git checkout'
